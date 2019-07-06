@@ -1,0 +1,21 @@
+{
+  "name": "spcp-auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node-dev index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@opengovsg/spcp-auth-client": "^1.2.8",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "node-dev": "^4.0.0"
+  }
+}
