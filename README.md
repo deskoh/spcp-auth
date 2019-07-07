@@ -16,7 +16,8 @@ npm start --prefix mockpass
 npm run dev
 
 # Go to http://localhost:5000/private
-# See Hello World in browser.
+# Login using Login Page (configurable in `mockpass\.env`)
+# See Hello {userName} in browser.
 ```
 
 ## VS Code Debugging

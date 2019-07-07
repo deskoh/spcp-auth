@@ -20,7 +20,7 @@ app.use(cookieParser())
 const POST_LOGIN_PAGE = '/private'
 app.get('/login', (req, res) => {
   const redirectURL = client.createRedirectURL(POST_LOGIN_PAGE)
-  res.redirect(redirectURL)
+  res.cookie('connect.sid', '').redirect(redirectURL)
 })
 
 app.get('/singpass/assert', (req, res) => {
@@ -28,7 +28,7 @@ app.get('/singpass/assert', (req, res) => {
   client.getAttributes(samlArt, relayState, (err, data) => {
     if (err) {
       // Indicate that an error has occurred
-      res.cookie('login.error', err.message)
+      res.status(400).send(err.message)
     } else {
       // If all is well and login occurs, the attributes are given
       const { attributes, relayState } = data
@@ -38,15 +38,15 @@ app.get('/singpass/assert', (req, res) => {
       const FOUR_HOURS = 4 * 60 * 60 * 1000
       const jwt = client.createJWT({ userName }, FOUR_HOURS)
       res.cookie('connect.sid', jwt)
+      res.redirect(relayState)
     }
-    res.redirect(relayState)
   })
 })
 
 const isAuthenticated = (req, res, next) => {
-  client.verifyJWT((req.cookies || {})['connect.sid'], (err, data) => {
+  client.verifyJWT(req.cookies['connect.sid'], (err, data) => {
     if (err) {
-      res.status(400).send('Unauthorized')
+      res.status(401).send('Unauthorized')
     } else {
       req.userName = data.userName
       next()
@@ -57,9 +57,9 @@ app.get(
   '/private',
   isAuthenticated,
   (req, res) => {
-    res.send('Hello World!')
+    res.send(`Hello ${req.userName}!`)
   }
 )
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000
 app.listen(5000, () => console.log(`Listening on port ${port}`))
