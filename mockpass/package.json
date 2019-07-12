@@ -10,7 +10,8 @@
     "env-cmd": "^9.0.3"
   },
   "scripts": {
-    "start": "env-cmd mockpass"
+    "dev": "env-cmd mockpass",
+    "start": "mockpass"
   },
   "keywords": [],
   "author": "",
