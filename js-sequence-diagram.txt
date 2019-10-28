@@ -1,0 +1,16 @@
+UA->SP: GET /login
+SP->UA: 302 Redirect to IDP
+UA->IDP: GET /singpass/logininitial
+Note right of UA: partnerID / svcID \n NameIdFormat \n State
+UA-->IDP: Performs login
+IDP->IDP: Authenticates login\nCreates SAML Artifact\n(User Specific?)
+IDP->UA: 302 Redirect to SP assert endpoint
+UA->SP: GET /singpass/assert
+Note right of UA: SAML Artifact\nState
+SP->SP:Sign Artifact with\nApp Private Key\n
+SP->IDP: POST /singpass/soap
+Note right of SP: Signed Artifact
+IDP->IDP: 1. Verifies signature with App Public Key\n2. Creates assertion\n3. Signs using SPCP Private Key\n4. Encrypt using App Public Key
+IDP->SP: Signed and Encrypted\nSAML Assertion
+SP->SP:1. Verifies signature using SPCP public key\n2. Decrypt using App Private Key\n3. Extracts user info
+SP->UA: Returns dauthenticated resource
