@@ -10,7 +10,7 @@ npm i --prefix=mockpass
 npm i
 
 # Starts MockPass
-npm start --prefix mockpass
+npm run dev --prefix mockpass
 
 # Starts Client
 npm run dev
